@@ -1,304 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study-as-a-Job Dashboard (CEO Edition V4.0)</title>
+    <title>Study-as-a-Job (Fixed Edition)</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<!-- Theme applied via JS -->
-
 <body data-theme="default">
     <div class="app-container">
-        <!-- Sidebar / Header -->
         <header>
             <div class="brand">
                 <span class="logo-icon">💼</span>
-                <h1>Study Job <span class="version">V4.0</span></h1>
+                <h1>Study Job <span class="version">V4.1 Fix</span></h1>
             </div>
             <div class="user-profile">
                 <div class="avatar">SJ</div>
                 <div class="user-info">
                     <h2 id="current-rank">Intern</h2>
-                    <div class="progress-bar" title="Progress to next rank">
-                        <div class="progress-fill" id="rank-progress" style="width: 0%"></div>
-                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="rank-progress" style="width: 0%"></div></div>
                 </div>
             </div>
-
             <nav class="stats-grid">
-                <div class="stat-card">
-                    <span class="label">Total Hours</span>
-                    <span class="value" id="total-hours">0.0h</span>
-                </div>
-                <div class="stat-card">
-                    <span class="label">Earnings</span>
-                    <span class="value coins" id="coin-balance">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="label">Commitment</span>
-                    <span class="value score" id="commitment-score">100%</span>
-                </div>
-                <div class="stat-card streak-card">
-                    <span class="label">Streak 🔥</span>
-                    <span class="value" id="streak-count">0</span>
-                </div>
+                <div class="stat-card"><span class="label">Hours</span><span class="value" id="total-hours">0.0h</span></div>
+                <div class="stat-card"><span class="label">Coins</span><span class="value coins" id="coin-balance">0</span></div>
+                <div class="stat-card streak-card"><span class="label">Streak 🔥</span><span class="value" id="streak-count">0</span></div>
             </nav>
-
             <div class="header-actions">
-                <button id="btn-open-shop" class="icon-btn" title="Open Shop">🛒</button>
-                <div class="inventory-display" title="Vacation Tickets">
-                    <span>🎫</span> <span id="ticket-count">0</span>
-                </div>
+                <button id="btn-open-shop" class="icon-btn">🛒</button>
+                <div class="inventory-display">🎫 <span id="ticket-count">0</span></div>
                 <div class="data-actions">
-                    <button id="btn-backup" class="icon-btn small" title="Backup Data">💾</button>
-                    <button id="btn-restore" class="icon-btn small" title="Restore Data">📂</button>
+                    <button id="btn-backup" class="icon-btn small">💾</button>
+                    <button id="btn-restore" class="icon-btn small">📂</button>
                     <input type="file" id="import-file" accept=".json" hidden>
                 </div>
             </div>
         </header>
 
-        <!-- Main Content -->
         <main>
-            <!-- Top Bar: Clock & Status -->
             <div class="top-bar">
-                <div class="time-widget">
-                    <span class="icon">🕒</span>
-                    <span id="current-time">00:00</span>
-                </div>
+                <div class="time-widget"><span class="icon">🕒</span><span id="current-time">00:00</span></div>
                 <div id="work-status" class="status-badge">OFF SHIFT</div>
             </div>
 
-            <!-- HR Feedback Section -->
             <section id="hr-section" class="feedback-card">
                 <h3>HR Feedback</h3>
                 <p id="hr-message">Ready for work? Clock In to start.</p>
             </section>
 
-            <!-- Workspace / Controls -->
             <section class="workspace">
-
-                <!-- Setup Phase (Hidden when working) -->
                 <div id="setup-controls" class="control-panel">
                     <h3>Shift Setup</h3>
-
                     <div class="form-group">
-                        <label>Contract Type</label>
+                        <label>Contract</label>
                         <select id="contract-select">
-                            <option value="full">Full-Time (8h) - Standard</option>
-                            <option value="partA">Part-Time A (4h) - Morning</option>
-                            <option value="partB">Part-Time B (8h) - Flex</option>
+                            <option value="full">Full-Time (8h)</option>
+                            <option value="partA">Part-Time (4h)</option>
+                            <option value="partB">Flex (8h/3d)</option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label>Shift Start Time</label>
-                        <input type="time" id="shift-start" value="09:00">
-                    </div>
-
                     <div class="form-group checkbox-group">
                         <input type="checkbox" id="focus-toggle">
-                        <label for="focus-toggle">Enable Focus Mode (Audio)</label>
+                        <label for="focus-toggle">Focus Audio (Coffee Shop)</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="mute-sfx">
+                        <label for="mute-sfx" style="color:var(--accent-warning)">Mute All Sounds (Silent Mode)</label>
                     </div>
 
-                    <!-- V4.0: Task Setup -->
                     <div class="form-group tasks-setup">
-                        <label>Today's Top 3 Tasks (Optional - Bonus Coins)</label>
+                        <label>Today's Tasks (Completing these = Excellent Rating)</label>
                         <input type="text" id="task-input-1" placeholder="Task 1...">
                         <input type="text" id="task-input-2" placeholder="Task 2...">
                         <input type="text" id="task-input-3" placeholder="Task 3...">
                     </div>
-
                     <button id="btn-clock-in" class="btn-primary">Clock In</button>
                 </div>
 
-                <!-- Active Phase (Hidden when idle) -->
                 <div id="active-controls" class="control-panel hidden">
-                    <div class="session-info">
-                        <div class="info-item">
-                            <span class="label">Current Shift</span>
-                            <span class="val" id="current-contract">Full-Time</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Clocked In</span>
-                            <span class="val" id="start-time-display">09:00</span>
-                        </div>
-                    </div>
-
-                    <div class="timer-display">
-                        <span id="session-timer">00:00:00</span>
-                        <span class="timer-label">Session Duration</span>
-                    </div>
-
-                    <!-- V4.0: Active Tasks Checkboxes -->
+                    <div class="timer-display"><span id="session-timer">00:00:00</span></div>
+                    
                     <div id="active-tasks-list" class="active-tasks hidden">
                         <h4>Current Tasks</h4>
-                        <!-- Injected via JS -->
                     </div>
 
                     <div class="break-controls">
-                        <div class="break-timer">
-                            <span class="icon">☕</span>
-                            <span id="break-timer">0m</span> / <span id="break-limit">60</span>m
-                        </div>
                         <button id="btn-break" class="btn-secondary">Take Break</button>
                         <button id="btn-end-break" class="btn-primary hidden">End Break</button>
                     </div>
-
                     <button id="btn-clock-out" class="btn-danger">Clock Out</button>
-                </div>
-            </section>
-
-            <!-- History Table -->
-            <section class="history-section">
-                <h3>Recent Activity</h3>
-                <div class="table-wrapper">
-                    <table id="history-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Hours</th>
-                                <th>Status</th>
-                                <th>Coins</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Modals -->
-
-    <!-- Shop Modal -->
-    <div id="shop-modal" class="modal-overlay hidden">
-        <div class="modal-content shop-content">
-            <div class="modal-header">
-                <h2>Company Store</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="shop-balance">
-                Your Balance: <span id="shop-coin-balance">0</span> 🪙
-            </div>
-
-            <h3>Themes</h3>
-            <div class="shop-grid">
-                <div class="shop-card" data-theme-id="gold">
-                    <div class="preview gold-preview"></div>
-                    <h4>Executive Gold</h4>
-                    <p class="cost">50 🪙</p>
-                    <button class="btn-shop">Buy</button>
-                </div>
-                <div class="shop-card" data-theme-id="midnight">
-                    <div class="preview midnight-preview"></div>
-                    <h4>Midnight Elite</h4>
-                    <p class="cost">100 🪙</p>
-                    <button class="btn-shop">Buy</button>
-                </div>
-            </div>
-
-            <h3>Consumables</h3>
-            <div class="shop-grid">
-                <div class="shop-card" data-item-id="vacation_ticket">
-                    <div class="preview ticket-preview">🎫</div>
-                    <h4>Vacation Ticket</h4>
-                    <p class="desc">Save your streak if you miss a day.</p>
-                    <p class="cost">200 🪙</p>
-                    <button class="btn-buy-item">Buy Ticket</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Daily Report Modal -->
     <div id="report-modal" class="modal-overlay hidden">
         <div class="modal-content report-content">
-            <div class="modal-header">
-                <h2>Daily Performance Report</h2>
-                <button class="close-modal">&times;</button>
-            </div>
+            <div class="modal-header"><h2>Daily Report</h2><button class="close-modal">&times;</button></div>
             <div class="report-body">
-                <div class="report-row">
-                    <span>Net Hours Worked:</span>
-                    <span id="report-hours">0.0h</span>
-                </div>
-                <div class="report-row">
-                    <span>Base Earnings:</span>
-                    <span id="report-base-coins">0 🪙</span>
-                </div>
-                <div class="report-row hidden">
-                    <span>Overtime Bonus:</span>
-                    <span id="report-overtime-coins">0 🪙</span>
-                </div>
-                <div class="report-row hidden">
-                    <span>Task Bonus:</span> <!-- V4.0 -->
-                    <span id="report-task-coins">0 🪙</span>
-                </div>
-                <div class="report-row streak-row hidden">
-                    <span>Streak Bonus (3-Day):</span>
-                    <span id="report-streak-coins">0 🪙</span>
-                </div>
-                <div class="report-row penalty-row hidden">
-                    <span>Lateness Penalty:</span>
-                    <span id="report-penalty-coins">0 🪙</span>
-                </div>
-                <hr>
-                <div class="report-total">
-                    <span>Total Earned:</span>
-                    <span id="report-total-coins">0 🪙</span>
-                </div>
+                <div class="report-row"><span>Hours:</span><span id="report-hours">0.0h</span></div>
+                <div class="report-row"><span>Earnings:</span><span id="report-total-coins">0 🪙</span></div>
+                <div class="report-row"><span>Performance:</span><span id="report-rating" style="font-weight:bold">--</span></div>
             </div>
             <button id="btn-close-report" class="btn-primary full-width">Dismiss</button>
         </div>
     </div>
-
-    <!-- Weekly Report Modal (V4.0) -->
-    <div id="weekly-modal" class="modal-overlay hidden">
-        <div class="modal-content report-content">
-            <div class="modal-header">
-                <h2>Weekly Performance Review</h2>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="report-body">
-                <p class="weekly-intro">Here is your summary for the last 7 days.</p>
-                <div class="report-row">
-                    <span>Total Hours:</span>
-                    <span id="weekly-hours">0.0h</span>
-                </div>
-                <div class="report-row">
-                    <span>Total Earnings:</span>
-                    <span id="weekly-coins">0 🪙</span>
-                </div>
-                <div class="report-row">
-                    <span>Lateness Count:</span>
-                    <span id="weekly-lates">0</span>
-                </div>
-                <hr>
-                <div class="report-total">
-                    <span>Performance Rating:</span>
-                    <span id="weekly-rating">Good</span>
-                </div>
-            </div>
-            <button id="btn-close-weekly" class="btn-primary full-width">Acknowledge</button>
-        </div>
-    </div>
-
-    <!-- Audio Assets -->
-    <audio id="focus-audio" loop>
-        <source src="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" type="audio/ogg">
-    </audio>
-    <audio id="audio-clock-in" src="https://actions.google.com/sounds/v1/cartoon/clown_horn.ogg"></audio>
-    <!-- Creating a defined sharp sound for testing -->
+    
+    <audio id="audio-clock-in" src="https://actions.google.com/sounds/v1/office/stapler_heavy_press.ogg"></audio>
     <audio id="audio-clock-out" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
+    <audio id="focus-audio" loop src="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg"></audio>
 
     <script src="script.js"></script>
 </body>
-
 </html>
